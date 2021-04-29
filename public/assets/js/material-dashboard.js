@@ -183,6 +183,54 @@ md = {
     });
   },
 
+  successMsg: function(message) {
+
+    $.notify({
+      icon: "add_alert",
+      message: message
+
+    }, {
+      type: 'success',
+      timer: 3000,
+      placement: {
+        from: 'top',
+        align: 'right'
+      }
+    });
+  },
+
+  errorMsg: function(message) {
+
+    $.notify({
+      icon: "add_alert",
+      message: message
+
+    }, {
+      type: 'danger',
+      timer: 3000,
+      placement: {
+        from: 'top',
+        align: 'right'
+      }
+    });
+  },
+
+  warningMsg: function() {
+
+    $.notify({
+      icon: "add_alert",
+      message: 'Something went wrong!'
+
+    }, {
+      type: 'warning',
+      timer: 3000,
+      placement: {
+        from: 'top',
+        align: 'right'
+      }
+    });
+  },
+
   initDocumentationCharts: function() {
     if ($('#dailySalesChart').length != 0 && $('#websiteViewsChart').length != 0) {
       /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */

@@ -49,7 +49,7 @@
             <li class="nav-item dropdown">
               <a
                 class="nav-link"
-                href="#"
+                href="javascript:;"
                 id="navbarDropdownMenuLink"
                 data-toggle="dropdown"
                 aria-haspopup="true"
@@ -63,15 +63,19 @@
                 class="dropdown-menu dropdown-menu-right"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                <a class="dropdown-item" href="#"
+                <a class="dropdown-item" href="javascript:;"
                   >Mike John responded to your email</a
                 >
-                <a class="dropdown-item" href="#">You have 5 new tasks</a>
-                <a class="dropdown-item" href="#"
+                <a class="dropdown-item" href="javascript:;"
+                  >You have 5 new tasks</a
+                >
+                <a class="dropdown-item" href="javascript:;"
                   >You're now friend with Andrew</a
                 >
-                <a class="dropdown-item" href="#">Another Notification</a>
-                <a class="dropdown-item" href="#">Another One</a>
+                <a class="dropdown-item" href="javascript:;"
+                  >Another Notification</a
+                >
+                <a class="dropdown-item" href="javascript:;">Another One</a>
               </div>
             </li>
             <li class="nav-item dropdown">
@@ -90,10 +94,32 @@
                 class="dropdown-menu dropdown-menu-right"
                 aria-labelledby="navbarDropdownProfile"
               >
-                <a class="dropdown-item" href="#">Profile</a>
-                <a class="dropdown-item" href="#">Settings</a>
+                <a class="dropdown-item" href="javascript:;">Profile</a>
+                <a
+                  v-if="getEmployeeCheckedin == 'no'"
+                  class="dropdown-item"
+                  href="javascript:;"
+                  @click.prevent="checkin()"
+                  >Check-In</a
+                >
+                <a
+                  v-if="
+                    getEmployeeCheckedin == 'yes' &&
+                    getEmployeeCheckedout == 'no'
+                  "
+                  class="dropdown-item"
+                  href="javascript:;"
+                  @click.prevent="checkout()"
+                  >Check-Out</a
+                >
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Log out</a>
+                <a
+                  v-if="getUserAuthenticate == 'yes'"
+                  class="dropdown-item"
+                  href="javascript:;"
+                  @click.prevent="logout()"
+                  >Log out</a
+                >
               </div>
             </li>
           </ul>
@@ -105,5 +131,52 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+
+export default {
+  data() {
+    return {
+      //
+    };
+  },
+  computed: {
+    ...mapGetters([
+      "getUserAuthenticate",
+      "getEmployeeCheckedin",
+      "getEmployeeCheckedout",
+    ]),
+  },
+  methods: {
+    logout() {
+      this.$http.post("auth/logout").then((results) => {
+        localStorage.setItem("userAuthenticate", "no");
+        this.$store.dispatch("setUserAuthenticate");
+        this.$router.push({ name: "login" });
+        console.log(results);
+      });
+    },
+    checkin() {
+      this.$http.post("attendance/checkin").then((results) => {
+        localStorage.setItem("employeeCheckedin", "yes");
+        localStorage.setItem("employeeCheckedout", "no");
+        this.$store.dispatch("setEmployeeCheckedin");
+        this.$store.dispatch("setEmployeeCheckedout");
+        console.log(results);
+      });
+    },
+    checkout() {
+      this.$http.post("attendance/checkout").then((results) => {
+        localStorage.setItem("employeeCheckedin", "yes");
+        localStorage.setItem("employeeCheckedout", "yes");
+        this.$store.dispatch("setEmployeeCheckedin");
+        this.$store.dispatch("setEmployeeCheckedout");
+        console.log(results);
+      });
+    },
+  },
+  created() {
+    this.$store.dispatch("setEmployeeCheckedin");
+    this.$store.dispatch("setEmployeeCheckedout");
+  },
+};
 </script>
