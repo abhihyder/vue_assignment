@@ -22,6 +22,10 @@ export default {
     Footer,
     Sidebar,
   },
+  created() {
+    this.$store.dispatch("setCheckedInOrNot");
+    this.$store.dispatch("setCheckedOutOrNot");
+  },
 };
 </script>
 

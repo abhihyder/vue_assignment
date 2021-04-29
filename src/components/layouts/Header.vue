@@ -96,7 +96,7 @@
               >
                 <a class="dropdown-item" href="javascript:;">Profile</a>
                 <a
-                  v-if="getEmployeeCheckedin == 'no'"
+                  v-if="getEmployeeCheckedin === false"
                   class="dropdown-item"
                   href="javascript:;"
                   @click.prevent="checkin()"
@@ -104,8 +104,8 @@
                 >
                 <a
                   v-if="
-                    getEmployeeCheckedin == 'yes' &&
-                    getEmployeeCheckedout == 'no'
+                    getEmployeeCheckedin === true &&
+                    getEmployeeCheckedout === false
                   "
                   class="dropdown-item"
                   href="javascript:;"
@@ -114,7 +114,7 @@
                 >
                 <div class="dropdown-divider"></div>
                 <a
-                  v-if="getUserAuthenticate == 'yes'"
+                  v-if="getUserAuthenticate"
                   class="dropdown-item"
                   href="javascript:;"
                   @click.prevent="logout()"
@@ -149,34 +149,24 @@ export default {
   methods: {
     logout() {
       this.$http.post("auth/logout").then((results) => {
-        localStorage.setItem("userAuthenticate", "no");
+        localStorage.setItem("userAuthenticate", false);
         this.$store.dispatch("setUserAuthenticate");
         this.$router.push({ name: "login" });
         console.log(results);
       });
     },
     checkin() {
-      this.$http.post("attendance/checkin").then((results) => {
-        localStorage.setItem("employeeCheckedin", "yes");
-        localStorage.setItem("employeeCheckedout", "no");
-        this.$store.dispatch("setEmployeeCheckedin");
-        this.$store.dispatch("setEmployeeCheckedout");
-        console.log(results);
+      this.$http.post("attendance/checkin").then(() => {
+        this.$store.dispatch("setCheckedInOrNot");
+        this.$store.dispatch("setCheckedOutOrNot");
       });
     },
     checkout() {
-      this.$http.post("attendance/checkout").then((results) => {
-        localStorage.setItem("employeeCheckedin", "yes");
-        localStorage.setItem("employeeCheckedout", "yes");
-        this.$store.dispatch("setEmployeeCheckedin");
-        this.$store.dispatch("setEmployeeCheckedout");
-        console.log(results);
+      this.$http.post("attendance/checkout").then(() => {
+        this.$store.dispatch("setCheckedInOrNot");
+        this.$store.dispatch("setCheckedOutOrNot");
       });
     },
-  },
-  created() {
-    this.$store.dispatch("setEmployeeCheckedin");
-    this.$store.dispatch("setEmployeeCheckedout");
   },
 };
 </script>

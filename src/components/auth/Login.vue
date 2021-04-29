@@ -59,19 +59,15 @@ export default {
       this.$http
         .post("auth/login", this.form)
         .then((results) => {
-          console.log(results);
-          localStorage.setItem("userAuthenticate", "yes");
           localStorage.setItem("accessToken", results.data.access_token);
-          this.$router.push({ name: "root" });
-          this.$store.dispatch("setUserAuthenticate");
           this.$store.dispatch("setAccessToken");
-          this.$store.dispatch("setLoggedInUserData");
+          this.$store.dispatch("setUserAuthenticate", true);
+          this.$router.push({ name: "root" });
         })
         .catch((error) => {
           console.log(error);
         });
     },
   },
-
 };
 </script>

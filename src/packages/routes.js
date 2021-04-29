@@ -36,16 +36,10 @@ const routes = new VueRouter({
   ],
 });
 
-// routes.beforeEach(() => {
-//   // let isAuthenticated = localStorage.getItem("userAuthenticate")
-//   //   ? localStorage.getItem("userAuthenticate")
-//   //   : "no";
-//   // if (to.name == "login" && isAuthenticated == "no") {
-//   //   next({ name: "login" });
-//   // } else {
-//   //   next();
-//   // }
-//   console.log(store.getters.getAccessToken);
+// routes.beforeEach((to, from, next) => {
+//   let isAuthenticated = store.getters.getUserAuthenticate;
+//   if (to.name !== "login" && isAuthenticated == false) next({ name: "login" });
+//   else next();
 // });
 
 export default routes;

@@ -1,5 +1,5 @@
 import axios from "axios";
-// import vuex from "./vuex";
+// import store from "./vuex";
 
 export default axios.create({
   baseURL: "http://127.0.0.1:8000/api/",
@@ -7,5 +7,6 @@ export default axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    // Authorization: "Bearer " + store.state.accessToken,
   },
 });

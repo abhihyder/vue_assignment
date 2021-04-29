@@ -8,8 +8,8 @@
 export default {
   name: "App",
   components: {},
-  created() {
-    this.$store.dispatch("setUserAuthenticate");
+  beforeCreate() {
+    this.$store.dispatch("setLoggedInUserData");
     this.$store.dispatch("setAccessToken");
   },
 };

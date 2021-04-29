@@ -1,15 +1,16 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "./axios";
 
 Vue.use(Vuex);
 
 const vuex = new Vuex.Store({
   state: {
-    userAuthenticate: "no",
+    userAuthenticate: false,
     accessToken: "",
     loggedInUserData: "",
-    employeeCheckedin: "no",
-    employeeCheckedout: "no",
+    employeeCheckedin: false,
+    employeeCheckedout: false,
   },
 
   getters: {
@@ -31,45 +32,72 @@ const vuex = new Vuex.Store({
   },
 
   mutations: {
-    setUserAuthenticate: (state) => {
-      state.userAuthenticate = localStorage.getItem("userAuthenticate");
+    setUserAuthenticate: (state, payload) => {
+      state.userAuthenticate = payload;
     },
+
     setAccessToken: (state) => {
       state.accessToken = localStorage.getItem("accessToken");
     },
+
     setLoggedInUserData: (state) => {
-      this.$http
+      axios
         .get("/auth_user")
         .then((results) => {
-          state.loggedInUserData = results.data;
+          if (results.data) {
+            state.loggedInUserData = results.data.data;
+            state.userAuthenticate = true;
+          } else {
+            state.loggedInUserData = "";
+            state.userAuthenticate = false;
+          }
         })
         .catch(() => {
           state.loggedInUserData = "";
+          state.userAuthenticate = false;
         });
     },
-    setEmployeeCheckedin: (state) => {
-      state.employeeCheckedin = localStorage.getItem("employeeCheckedin");
+
+    setCheckedInOrNot: (state) => {
+      axios.get("/checkin_or_not").then((results) => {
+        if (results.data.success.message == "yes") {
+          state.employeeCheckedin = true;
+        } else {
+          state.employeeCheckedin = false;
+        }
+      });
     },
-    setEmployeeCheckedout: (state) => {
-      state.employeeCheckedout = localStorage.getItem("employeeCheckedout");
+
+    setCheckedOutOrNot: (state) => {
+      axios.get("/checkout_or_not").then((results) => {
+        if (results.data.success.message == "yes") {
+          state.employeeCheckedout = true;
+        } else {
+          state.employeeCheckedout = false;
+        }
+      });
     },
   },
 
   actions: {
-    setUserAuthenticate: (context) => {
-      context.commit("setUserAuthenticate");
+    setUserAuthenticate: (context, payload) => {
+      context.commit("setUserAuthenticate", payload);
     },
+
     setAccessToken: (context) => {
       context.commit("setAccessToken");
     },
+
     setLoggedInUserData: (context) => {
       context.commit("setLoggedInUserData");
     },
-    setEmployeeCheckedin: (context) => {
-      context.commit("setEmployeeCheckedin");
+
+    setCheckedInOrNot: (context) => {
+      context.commit("setCheckedInOrNot");
     },
-    setEmployeeCheckedout: (context) => {
-      context.commit("setEmployeeCheckedout");
+
+    setCheckedOutOrNot: (context) => {
+      context.commit("setCheckedOutOrNot");
     },
   },
 });
