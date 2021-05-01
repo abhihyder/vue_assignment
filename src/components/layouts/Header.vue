@@ -63,9 +63,9 @@
                 class="dropdown-menu dropdown-menu-right"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                <a class="dropdown-item" href="javascript:;"
-                  >Mike John responded to your email</a
-                >
+                <a class="dropdown-item" href="javascript:;">{{
+                  getPushNotification
+                }}</a>
                 <a class="dropdown-item" href="javascript:;"
                   >You have 5 new tasks</a
                 >
@@ -94,19 +94,22 @@
                 class="dropdown-menu dropdown-menu-right"
                 aria-labelledby="navbarDropdownProfile"
               >
-                <a class="dropdown-item" href="javascript:;">Profile</a>
+                <!-- <a class="dropdown-item" href="javascript:;">Profile</a> -->
                 <a
-                  v-if="getEmployeeCheckedin === false"
+                  v-if="getLoggedInUserData"
+                  class="dropdown-item"
+                  href="javascript:;"
+                  >{{ getLoggedInUserData.name }}</a
+                >
+                <a
+                  v-if="!getEmployeeCheckedin"
                   class="dropdown-item"
                   href="javascript:;"
                   @click.prevent="checkin()"
                   >Check-In</a
                 >
                 <a
-                  v-if="
-                    getEmployeeCheckedin === true &&
-                    getEmployeeCheckedout === false
-                  "
+                  v-if="getEmployeeCheckedin && !getEmployeeCheckedout"
                   class="dropdown-item"
                   href="javascript:;"
                   @click.prevent="checkout()"
@@ -134,39 +137,36 @@
 import { mapGetters } from "vuex";
 
 export default {
-  data() {
-    return {
-      //
-    };
-  },
   computed: {
     ...mapGetters([
       "getUserAuthenticate",
+      "getLoggedInUserData",
       "getEmployeeCheckedin",
       "getEmployeeCheckedout",
+      "getPushNotification",
     ]),
+  },
+  watch: {
+    getPushNotification(newValue) {
+      this.$toasted.show(newValue, {
+        type: "success",
+      });
+    },
   },
   methods: {
     logout() {
-      this.$http.post("auth/logout").then((results) => {
-        localStorage.setItem("userAuthenticate", false);
-        this.$store.dispatch("setUserAuthenticate");
-        this.$router.push({ name: "login" });
-        console.log(results);
-      });
+      this.$store.dispatch("actUserUnauthenticattion");
+      this.$router.push({ name: "login" });
     },
     checkin() {
-      this.$http.post("attendance/checkin").then(() => {
-        this.$store.dispatch("setCheckedInOrNot");
-        this.$store.dispatch("setCheckedOutOrNot");
-      });
+      this.$store.dispatch("actCheckedIn");
     },
     checkout() {
-      this.$http.post("attendance/checkout").then(() => {
-        this.$store.dispatch("setCheckedInOrNot");
-        this.$store.dispatch("setCheckedOutOrNot");
-      });
+      this.$store.dispatch("actCheckedOut");
     },
+  },
+  created() {
+    console.log(this.moment().format('YYYY MM DD'));
   },
 };
 </script>

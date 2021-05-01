@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import store from "./vuex";
+import store from "./vuex";
 import Main from "../components/pages/Main";
 import Login from "../components/auth/Login";
 import Dashboard from "../components/pages/Dashboard";
@@ -15,6 +15,11 @@ const routes = new VueRouter({
       path: "/",
       component: Main,
       name: "root",
+      beforeEnter: (to, from, next) => {
+        const isAuthenticated = store.getters.getUserAuthenticate;
+        if (!isAuthenticated) next({ name: "login" });
+        else next();
+      },
       children: [
         {
           path: "/",
@@ -32,14 +37,13 @@ const routes = new VueRouter({
       path: "/login",
       component: Login,
       name: "login",
+      beforeEnter: (to, from, next) => {
+        const isAuthenticated = store.getters.getUserAuthenticate;
+        if (isAuthenticated) next({ name: "root" });
+        else next();
+      },
     },
   ],
 });
-
-// routes.beforeEach((to, from, next) => {
-//   let isAuthenticated = store.getters.getUserAuthenticate;
-//   if (to.name !== "login" && isAuthenticated == false) next({ name: "login" });
-//   else next();
-// });
 
 export default routes;

@@ -8,9 +8,5 @@
 export default {
   name: "App",
   components: {},
-  beforeCreate() {
-    this.$store.dispatch("setLoggedInUserData");
-    this.$store.dispatch("setAccessToken");
-  },
 };
 </script>

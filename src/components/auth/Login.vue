@@ -58,10 +58,8 @@ export default {
     submitLoginForm() {
       this.$http
         .post("auth/login", this.form)
-        .then((results) => {
-          localStorage.setItem("accessToken", results.data.access_token);
-          this.$store.dispatch("setAccessToken");
-          this.$store.dispatch("setUserAuthenticate", true);
+        .then((results) => {       
+          this.$store.dispatch("actUserAuthentication",  results.data);
           this.$router.push({ name: "root" });
         })
         .catch((error) => {
