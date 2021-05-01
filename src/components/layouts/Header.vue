@@ -56,16 +56,13 @@
                 aria-expanded="false"
               >
                 <i class="material-icons">notifications</i>
-                <span class="notification">5</span>
+                <span class="notification">4</span>
                 <p class="d-lg-none d-md-block">Some Actions</p>
               </a>
               <div
                 class="dropdown-menu dropdown-menu-right"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                <a class="dropdown-item" href="javascript:;">{{
-                  getPushNotification
-                }}</a>
                 <a class="dropdown-item" href="javascript:;"
                   >You have 5 new tasks</a
                 >
@@ -134,23 +131,26 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   computed: {
+    ...mapState(["pushNotification"]),
     ...mapGetters([
       "getUserAuthenticate",
       "getLoggedInUserData",
       "getEmployeeCheckedin",
       "getEmployeeCheckedout",
-      "getPushNotification",
     ]),
   },
   watch: {
-    getPushNotification(newValue) {
-      this.$toasted.show(newValue, {
-        type: "success",
-      });
+    pushNotification(newValue) {
+      if (newValue) {
+        this.$toasted.show(newValue, {
+          type: this.$store.getters.getPushNotificationType,
+        });
+        this.$store.dispatch("actClearNotification");
+      }
     },
   },
   methods: {
@@ -164,9 +164,6 @@ export default {
     checkout() {
       this.$store.dispatch("actCheckedOut");
     },
-  },
-  created() {
-    console.log(this.moment().format('YYYY MM DD'));
   },
 };
 </script>

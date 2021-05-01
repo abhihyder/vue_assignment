@@ -1,17 +1,20 @@
-import moment from "moment";
-
 export default {
   actUserAuthentication: (context, payload) => {
     context.commit("setUserAuthenticate", true);
     context.commit("setAccessToken", payload.access_token);
     context.commit("setLoggedInUserData", payload.auth_user);
     context.commit("setTokenExpiration", payload.expires_in);
-    console.log(moment().format("YYYY MM DD"));
   },
+
   actUserUnauthenticattion: (context) => {
     context.commit("setUserAuthenticate", false);
     context.commit("setAccessToken", "");
     context.commit("setLoggedInUserData", "");
+    context.commit("setTokenExpiration", 0);
+  },
+
+  actClearNotification: (context) => {
+    context.commit("clearNotification");
   },
 
   actCheckinCheckout: (context) => {

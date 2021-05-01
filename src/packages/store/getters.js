@@ -20,4 +20,8 @@ export default {
   getPushNotification: (state) => {
     return state.pushNotification;
   },
+
+  getPushNotificationType: (state) => {
+    return state.pushNotificationType;
+  },
 };

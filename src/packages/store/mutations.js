@@ -14,11 +14,12 @@ export default {
   },
 
   setTokenExpiration: (state, payload) => {
-    state.tokenExpiration = moment().add(payload, 'seconds').format("YYYYMMDDHHmmss");
+    state.tokenExpiration = moment()
+      .add(payload, "seconds")
+      .format("YYYYMMDDHHmmss");
   },
 
   setCheckedInOrNot: (state) => {
-    console.log(moment().format("YYYY MM DD"));
     axios
       .get("/checkin_or_not")
       .then((results) => {
@@ -55,12 +56,15 @@ export default {
         if (results.data.success) {
           state.employeeCheckedin = true;
           state.pushNotification = results.data.success.message;
+          state.pushNotificationType = "success";
         } else {
           state.pushNotification = results.data.error.message;
+          state.pushNotificationType = "danger";
         }
       })
       .catch((error) => {
         state.pushNotification = error.data.error.message;
+        state.pushNotificationType = "danger";
       });
   },
 
@@ -71,12 +75,19 @@ export default {
         if (results.data.success) {
           state.employeeCheckedout = true;
           state.pushNotification = results.data.success.message;
+          state.pushNotificationType = "success";
         } else {
           state.pushNotification = results.data.error.message;
+          state.pushNotificationType = "danger";
         }
       })
       .catch((error) => {
         state.pushNotification = error.data.error.message;
+        state.pushNotificationType = "danger";
       });
+  },
+
+  clearNotification: (state) => {
+    state.pushNotification = null;
   },
 };

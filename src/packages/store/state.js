@@ -1,9 +1,10 @@
 export default {
   userAuthenticate: false,
   accessToken: "",
-  tokenExpiration: "",
+  tokenExpiration: 0,
   loggedInUserData: "",
   employeeCheckedin: false,
   employeeCheckedout: false,
-  pushNotification: "",
+  pushNotification: null,
+  pushNotificationType: "success",
 };

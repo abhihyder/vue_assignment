@@ -25,7 +25,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.$store.dispatch("actCheckinCheckout");
-    }, 5000);
+    }, 10000);
   },
 };
 </script>
