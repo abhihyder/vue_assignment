@@ -1,7 +1,7 @@
 export default {
   actUserAuthentication: (context, payload) => {
-    context.commit("setUserAuthenticate", true);
     context.commit("setAccessToken", payload.access_token);
+    context.commit("setUserAuthenticate", true);
     context.commit("setLoggedInUserData", payload.auth_user);
     context.commit("setTokenExpiration", payload.expires_in);
   },

@@ -7,22 +7,36 @@
       data-image="./assets/img/sidebar-1.jpg"
     >
       <div class="logo">
-        <a href="javascript:;" class="simple-text logo-normal"> Creative Tim </a>
+        <a href="javascript:;" class="simple-text logo-normal">
+          Creative Tim
+        </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item active">
-            <router-link :to="{ name: 'root' }" class="nav-link">
+          <router-link
+            :to="{ name: 'root' }"
+            class="nav-item"
+            active-class="active"
+            exact
+            tag="li"
+          >
+            <a class="nav-link" href="javascript:;">
               <i class="material-icons">dashboard</i>
-              <p>Dashboard</p></router-link
+              <p>Dashboard</p></a
             >
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'profile' }" class="nav-link"
+          </router-link>
+          <router-link
+            :to="{ name: 'profile' }"
+            class="nav-item"
+            active-class="active"
+            exact
+            tag="li"
+          >
+            <a class="nav-link"
               ><i class="material-icons">person</i>
-              <p>User Profile</p></router-link
+              <p>User Profile</p></a
             >
-          </li>
+          </router-link>
           <li class="nav-item">
             <a class="nav-link" href="javascript:;">
               <i class="material-icons">content_paste</i>
