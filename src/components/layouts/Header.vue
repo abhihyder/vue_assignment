@@ -155,7 +155,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch("actUserUnauthenticattion");
+      this.$store.dispatch("actUserUnauthentication");
       this.$router.push({ name: "login" });
     },
     checkin() {

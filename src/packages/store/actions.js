@@ -6,7 +6,7 @@ export default {
     context.commit("setTokenExpiration", payload.expires_in);
   },
 
-  actUserUnauthenticattion: (context) => {
+  actUserUnauthentication: (context) => {
     context.commit("setUserAuthenticate", false);
     context.commit("setAccessToken", "");
     context.commit("setLoggedInUserData", "");
