@@ -16,7 +16,23 @@ export default {
   setTokenExpiration: (state, payload) => {
     state.tokenExpiration = moment()
       .add(payload, "seconds")
-      .format("YYYYMMDDHHmmss");
+      .format("YYYY-MM-DD HH:mm:ss");
+  },
+
+  setUserRefresh: (state) => {
+    console.log("setUserRefresh");
+    axios
+      .post("/auth/refresh")
+      .then((results) => {
+        state.accessToken = "Bearer " + results.data.access_token;
+        state.tokenExpiration = moment()
+          .add(results.data.expires_in, "seconds")
+          .format("YYYY-MM-DD HH:mm:ss");
+        console.log(results);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 
   setCheckedInOrNot: (state) => {

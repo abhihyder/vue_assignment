@@ -12,6 +12,10 @@ export default {
     context.commit("setLoggedInUserData", "");
     context.commit("setTokenExpiration", 0);
   },
+  
+  actUserRefresh: (context) => {
+    context.commit("setUserRefresh");
+  },
 
   actClearNotification: (context) => {
     context.commit("clearNotification");
