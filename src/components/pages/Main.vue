@@ -23,9 +23,7 @@ export default {
     Sidebar,
   },
   mounted() {
-    setTimeout(() => {
-      this.$store.dispatch("actCheckinCheckout");
-    }, 10000);
+    this.$store.dispatch("actCheckinCheckout");
   },
 };
 </script>

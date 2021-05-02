@@ -45,14 +45,17 @@ export default {
           state.employeeCheckedin = false;
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         state.employeeCheckedin = false;
       });
   },
 
   setCheckedOutOrNot: (state) => {
     axios
-      .get("/checkout_or_not")
+      .get("/checkout_or_not", {
+        headers: { Authorization: state.accessToken },
+      })
       .then((results) => {
         if (results.data.success.message == "yes") {
           state.employeeCheckedout = true;
@@ -60,7 +63,8 @@ export default {
           state.employeeCheckedout = false;
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         state.employeeCheckedout = false;
       });
   },

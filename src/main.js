@@ -16,10 +16,6 @@ Vue.use(Toasted, {
 });
 
 Vue.prototype.$http = axios;
-const token = vuex.getters.getAccessToken;
-if (token) {
-  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
-}
 
 Vue.mixin(GlobalMixin);
 

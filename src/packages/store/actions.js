@@ -8,11 +8,11 @@ export default {
 
   actUserUnauthentication: (context) => {
     context.commit("setUserAuthenticate", false);
-    context.commit("setAccessToken", "");
+    context.commit("setAccessToken", null);
     context.commit("setLoggedInUserData", "");
     context.commit("setTokenExpiration", 0);
   },
-  
+
   actUserRefresh: (context) => {
     context.commit("setUserRefresh");
   },

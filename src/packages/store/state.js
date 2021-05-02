@@ -1,6 +1,6 @@
 export default {
   userAuthenticate: false,
-  accessToken: "",
+  accessToken: null,
   tokenExpiration: 0,
   loggedInUserData: "",
   employeeCheckedin: false,
