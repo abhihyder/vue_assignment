@@ -53,9 +53,7 @@ export default {
 
   setCheckedOutOrNot: (state) => {
     axios
-      .get("/checkout_or_not", {
-        headers: { Authorization: state.accessToken },
-      })
+      .get("/checkout_or_not")
       .then((results) => {
         if (results.data.success.message == "yes") {
           state.employeeCheckedout = true;
@@ -63,8 +61,7 @@ export default {
           state.employeeCheckedout = false;
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         state.employeeCheckedout = false;
       });
   },
